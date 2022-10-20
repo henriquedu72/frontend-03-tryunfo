@@ -103,7 +103,6 @@ class Form extends React.Component {
             onChange={ onInputChange }
             data-testid="rare-input"
           >
-            <option>selecione</option>
             <option>normal</option>
             <option>raro</option>
             <option>muito raro</option>
