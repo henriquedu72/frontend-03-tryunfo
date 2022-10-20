@@ -6,6 +6,9 @@ class Form extends React.Component {
     const { onInputChange, cardName, cardDescription, cardAttr1, cardAttr2 } = this.props;
     const { cardAttr3, cardImage, cardRare, cardTrunfo } = this.props;
     const { isSaveButtonDisabled, onSaveButtonClick } = this.props;
+
+    // let error = undefined;
+    // if (value.length > 120) error = 'Texto muito grande!';
     return (
       <section>
         <form>
@@ -13,17 +16,21 @@ class Form extends React.Component {
             Nome
             <input
               id="name"
+              required
               name="cardName"
               type="text"
               value={ cardName }
               onChange={ onInputChange }
               data-testid="name-input"
             />
+            {/* // <span>{error ? error : ''}</span> */}
           </label>
+
           <label htmlFor="description">
             Descrição
             <input
               id="description"
+              required
               name="cardDescription"
               type="textarea"
               value={ cardDescription }
@@ -31,43 +38,57 @@ class Form extends React.Component {
               data-testid="description-input"
             />
           </label>
+
           <label htmlFor="attr1">
             attr1
             <input
               id="attr1"
               name="cardAttr1"
+              required
+              min="0"
+              max="90"
               type="number"
               value={ cardAttr1 }
               onChange={ onInputChange }
               data-testid="attr1-input"
             />
           </label>
+
           <label htmlFor="attr2">
             attr2
             <input
               id="attr2"
               name="cardAttr2"
+              required
+              min="0"
+              max="90"
               type="number"
               value={ cardAttr2 }
               onChange={ onInputChange }
               data-testid="attr2-input"
             />
           </label>
+
           <label htmlFor="attr3">
             attr3
             <input
               id="attr3"
               name="cardAttr3"
+              required
+              min="0"
+              max="90"
               type="number"
               value={ cardAttr3 }
               onChange={ onInputChange }
               data-testid="attr3-input"
             />
           </label>
+
           <label htmlFor="image">
             imagem
             <input
               id="image"
+              required
               name="cardImage"
               type="text"
               value={ cardImage }
@@ -82,6 +103,7 @@ class Form extends React.Component {
             onChange={ onInputChange }
             data-testid="rare-input"
           >
+            <option>selecione</option>
             <option>normal</option>
             <option>raro</option>
             <option>muito raro</option>
