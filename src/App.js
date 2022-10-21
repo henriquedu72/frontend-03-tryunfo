@@ -5,7 +5,6 @@ import Card from './components/Card';
 class App extends React.Component {
   constructor() {
     super();
-
     this.state = {
       cardName: '',
       cardDescription: '',
@@ -15,6 +14,7 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
+      hasTrunfo: false,
       buttonDisabled: true,
       cardsList: [],
     };
@@ -54,52 +54,48 @@ class App extends React.Component {
     }, () => this.shouldEnableSaveButton());
   };
 
-  handleClick = () => {
-    const { cardName, cardDescription, cardImage, cardAttr1, cardAttr2,
-      cardAttr3, cardTrunfo } = this.state;
-    const newCard = {
-      cardName,
-      cardDescription,
-      cardImage,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-    };
-    if (cardTrunfo === true) {
-      this.setState({
-        trunfoSelected: true,
-      });
+  verifyHasInfo = () => {
+    const { cardTrunfo, hasTrunfo } = this.state;
+    if (cardTrunfo && !hasTrunfo) {
+      this.setState({ hasTrunfo: true });
     }
-    this.setState((prevState) => ({
-      cardsList: [...prevState.cardsList, newCard],
+  };
+
+  handleClick = () => {
+    this.setState((prev) => ({
       cardName: '',
       cardDescription: '',
-      cardAttr1: 0,
-      cardAttr2: 0,
-      cardAttr3: 0,
       cardImage: '',
-      cardRare: '',
+      cardRare: 'normal',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
       cardTrunfo: false,
-      // buttonDisabled: true,
+      cardsList: [...prev.cardsList,
+        { cardName: prev.cardName,
+          cardDescription: prev.cardDescription,
+          cardImage: prev.cardImage,
+          cardRare: prev.cardRare,
+          cardAttr1: prev.cardAttr1,
+          cardAttr2: prev.cardAttr2,
+          cardAttr3: prev.cardAttr3,
+          cardTrunfo: prev.cardTrunfo,
+        }],
     }));
+    this.verifyHasInfo();
   };
 
   removeButton = (card) => {
     const { cardsList } = this.state;
-    const result = cardsList.filter((param) => param.cardName !== card.cardName
-    && param.cardDescription !== card.cardAttr1
-    && param.cardDescription !== card.cardRare);
-    if (card.cardTrunfo === true) {
-      this.setState({
-        trunfoSelected: false,
-      });
-    }
+    const result = cardsList.filter((param) => param.cardName !== card.cardName);
+    if (card.cardTrunfo === true) this.setState({ hasTrunfo: false });
     this.setState({ cardsList: [...result] });
   };
 
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage,
-      cardRare, cardTrunfo, buttonDisabled, trunfoSelected, cardsList } = this.state;
+      cardRare, cardTrunfo, hasTrunfo, buttonDisabled,
+      cardsList } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -113,7 +109,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          trunfoSelected={ trunfoSelected }
+          hasTrunfo={ hasTrunfo }
           onInputChange={ this.handleChange }
           isSaveButtonDisabled={ buttonDisabled }
           onSaveButtonClick={ this.handleClick }
@@ -130,7 +126,6 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
         />
         <div>
-          {' '}
           { cardsList.map((card, index) => (
             <div
               key={ index }
@@ -145,7 +140,6 @@ class App extends React.Component {
                 cardRare={ card.cardRare }
                 cardTrunfo={ card.cardTrunfo }
               />
-              {' '}
               <button
                 data-testid="delete-button"
                 type="button"
@@ -156,7 +150,6 @@ class App extends React.Component {
 
             </div>))}
         </div>
-        {' '}
       </div>
     );
   }
