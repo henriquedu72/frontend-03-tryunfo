@@ -9,12 +9,12 @@ class App extends React.Component {
     this.state = {
       cardName: '',
       cardDescription: '',
-      cardAttr1: '',
-      cardAttr2: '',
-      cardAttr3: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
       cardImage: '',
       cardRare: '',
-      cardTrunfo: '',
+      cardTrunfo: false,
       buttonDisabled: true,
       cardsList: [],
     };
@@ -43,21 +43,33 @@ class App extends React.Component {
       || typedCard || sumOfAttrTyped });
   };
 
-  handleChange = (event) => {
+  // handleChange = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value,
+  handleChange = ({ target }) => {
+    const { name, type, checked } = target;
+    const value = type === 'checkbox' ? checked : target.value;
     this.setState({
-      [event.target.name]: event.target.value,
+      [name]: value,
     }, () => this.shouldEnableSaveButton());
   };
 
   handleClick = () => {
     const { cardName, cardDescription, cardImage, cardAttr1, cardAttr2,
-      cardAttr3 } = this.state;
-    const newCard = { cardName,
+      cardAttr3, cardTrunfo } = this.state;
+    const newCard = {
+      cardName,
       cardDescription,
       cardImage,
       cardAttr1,
       cardAttr2,
-      cardAttr3 };
+      cardAttr3,
+    };
+    if (cardTrunfo === true) {
+      this.setState({
+        trunfoSelected: true,
+      });
+    }
     this.setState((prevState) => ({
       cardsList: [...prevState.cardsList, newCard],
       cardName: '',
@@ -67,16 +79,14 @@ class App extends React.Component {
       cardAttr3: 0,
       cardImage: '',
       cardRare: '',
-      cardTrunfo: '',
+      cardTrunfo: false,
       buttonDisabled: true,
     }));
   };
 
   render() {
-    const { cardName, cardDescription, cardAttr1, cardAttr2 } = this.state;
-    const { cardAttr3, cardImage, cardRare, cardTrunfo } = this.state;
-    // const { isSaveButtonDisabled, onSaveButtonClick } = this.state;
-    const { buttonDisabled } = this.state;
+    const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage,
+      cardRare, cardTrunfo, buttonDisabled, trunfoSelected } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -90,6 +100,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          trunfoSelected={ trunfoSelected }
           onInputChange={ this.handleChange }
           isSaveButtonDisabled={ buttonDisabled }
           onSaveButtonClick={ this.handleClick }

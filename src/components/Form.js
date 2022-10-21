@@ -5,7 +5,7 @@ class Form extends React.Component {
   render() {
     const { onInputChange, cardName, cardDescription, cardAttr1, cardAttr2 } = this.props;
     const { cardAttr3, cardImage, cardRare, cardTrunfo } = this.props;
-    const { isSaveButtonDisabled, onSaveButtonClick } = this.props;
+    const { isSaveButtonDisabled, onSaveButtonClick, trunfoSelected } = this.props;
 
     // let error = undefined;
     // if (value.length > 120) error = 'Texto muito grande!';
@@ -108,17 +108,18 @@ class Form extends React.Component {
             <option>muito raro</option>
           </select>
 
-          <label htmlFor="trunfo">
-            Supertrunfo
-            <input
-              type="checkbox"
-              name="cardTrunfo"
-              id="trunfo"
-              checked={ cardTrunfo }
-              onChange={ onInputChange }
-              data-testid="trunfo-input"
-            />
-          </label>
+          {(trunfoSelected ? <p> Você já tem um Super Trunfo em seu baralho </p> : (
+            <label htmlFor="trunfo">
+              Supertrunfo
+              <input
+                type="checkbox"
+                name="cardTrunfo"
+                id="trunfo"
+                checked={ cardTrunfo }
+                onChange={ onInputChange }
+                data-testid="trunfo-input"
+              />
+            </label>))}
 
           <button
             type="button"
@@ -144,6 +145,7 @@ Form.propTypes = {
   cardImage: propTypes.string,
   cardRare: propTypes.string,
   cardTrunfo: propTypes.bool,
+  trunfoSelected: propTypes.bool,
   isSaveButtonDisabled: propTypes.bool,
   onSaveButtonClick: propTypes.bool,
 }.irRequire;
