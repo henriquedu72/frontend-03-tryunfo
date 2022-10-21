@@ -16,6 +16,7 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: '',
       buttonDisabled: true,
+      cardsList: [],
     };
   }
 
@@ -48,6 +49,29 @@ class App extends React.Component {
     }, () => this.shouldEnableSaveButton());
   };
 
+  handleClick = () => {
+    const { cardName, cardDescription, cardImage, cardAttr1, cardAttr2,
+      cardAttr3 } = this.state;
+    const newCard = { cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3 };
+    this.setState((prevState) => ({
+      cardsList: [...prevState.cardsList, newCard],
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: '',
+      cardTrunfo: '',
+      buttonDisabled: true,
+    }));
+  };
+
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2 } = this.state;
     const { cardAttr3, cardImage, cardRare, cardTrunfo } = this.state;
@@ -68,6 +92,7 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.handleChange }
           isSaveButtonDisabled={ buttonDisabled }
+          onSaveButtonClick={ this.handleClick }
         />
         <h2>Preview</h2>
         <Card
