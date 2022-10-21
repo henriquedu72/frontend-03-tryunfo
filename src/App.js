@@ -80,13 +80,13 @@ class App extends React.Component {
       cardImage: '',
       cardRare: '',
       cardTrunfo: false,
-      buttonDisabled: true,
+      // buttonDisabled: true,
     }));
   };
 
   render() {
     const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage,
-      cardRare, cardTrunfo, buttonDisabled, trunfoSelected } = this.state;
+      cardRare, cardTrunfo, buttonDisabled, trunfoSelected, cardsList } = this.state;
     return (
       <div>
         <h1>Tryunfo</h1>
@@ -116,6 +116,20 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+
+        <section>
+          <ul>
+            {
+              cardsList.map((item) => (
+                <li key={ item.cardName }>
+                  { `${item.cardName} ${item.cardDescription} 
+                  ${item.cardAttr1} ${item.cardAttr1} ${item.cardAttr2} 
+                  ${item.cardAttr3} ${item.cardImage} ${item.cardRare}` }
+                </li>
+              ))
+            }
+          </ul>
+        </section>
       </div>
     );
   }
